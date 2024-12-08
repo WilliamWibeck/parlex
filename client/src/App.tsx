@@ -10,6 +10,8 @@ import Logout from "./components/Auth/Logout";
 import Dashboard from "./components/Dashboard/Dashboard";
 import CenteringWrapper from "./components/CenteringWrapper";
 import AdminPage from "./components/AdminPage/AdminPage";
+import FlashCards from "./components/GameBoard/GameBoard";
+import GameBoard from "./components/GameBoard/GameBoard";
 
 function App() {
   return (
@@ -37,6 +39,7 @@ function App() {
             }
           />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/flashcards" element={<GameBoard />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

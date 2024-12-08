@@ -2,10 +2,11 @@ import Grid from "@mui/material/Grid2";
 import Logout from "../Auth/Logout";
 import { getAuth } from "firebase/auth";
 import Box from "@mui/material/Box";
-import { Paper } from "@mui/material";
+import { Button, Paper } from "@mui/material";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { styled } from "@mui/material/styles";
 import { useDrawingArea } from "@mui/x-charts/hooks";
+import { Link } from "react-router-dom";
 type Props = {};
 
 const Dashboard = (props: Props) => {
@@ -81,7 +82,9 @@ const Dashboard = (props: Props) => {
         />
         <Paper
           sx={{ backgroundColor: "#3C3C3C", width: "220px", height: "220px" }}
-        />
+        >
+          <Link to="/flashcards">TO FLASHCARDS</Link>
+        </Paper>
         <Logout />
       </Grid>
     </Box>
