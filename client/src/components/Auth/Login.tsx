@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Box, Button, Divider, Paper, TextField } from "@mui/material";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/firebase";
-import { Navigate, useNavigate } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Signup = (props: Props) => {
   const [email, setEmail] = useState("");
@@ -10,12 +9,19 @@ const Signup = (props: Props) => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  const auth = getAuth();
+  const user = auth.currentUser;
 
+  if (user) {
+    console.log("user has logged in:", user);
+  } else {
+    console.log("No user has logged in");
+  }
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     try {
+      console.log("hello ;D");
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/dashboard");
       alert("Login successful!");

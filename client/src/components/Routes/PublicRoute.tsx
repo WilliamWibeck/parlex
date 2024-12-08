@@ -5,16 +5,13 @@ import { auth } from "../../firebase/firebase";
 
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const [user, loading] = useAuthState(auth);
-
   if (loading) {
     return <p>Loading...</p>;
   }
-
   if (user) {
-    // If the user is logged in, redirect to the dashboard
+    console.log(user);
     return <Navigate to="/dashboard" />;
   }
-
   return <>{children}</>;
 };
 

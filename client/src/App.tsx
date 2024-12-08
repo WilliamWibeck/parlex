@@ -5,9 +5,11 @@ import { ThemeProvider } from "@emotion/react";
 import theme from "./theme/theme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
-import { Dashboard } from "@mui/icons-material";
 import PublicRoute from "./components/Routes/PublicRoute";
 import Logout from "./components/Auth/Logout";
+import Dashboard from "./components/Dashboard/Dashboard";
+import CenteringWrapper from "./components/CenteringWrapper";
+import AdminPage from "./components/AdminPage/AdminPage";
 
 function App() {
   return (
@@ -28,10 +30,13 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <CenteringWrapper>
+                  <Dashboard />
+                </CenteringWrapper>
               </ProtectedRoute>
             }
           />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
