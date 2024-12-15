@@ -1,28 +1,35 @@
-import React, { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import { useState } from "react";
+import { collection, doc, addDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { Box, Button, MenuItem, Select, Stack, TextField } from "@mui/material";
 
-type Props = {};
-
-const WordAddingForm = (props: Props) => {
+const WordAddingForm = () => {
   const [french, setFrench] = useState("");
   const [english, setEnglish] = useState("");
   const [example, setExample] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [category, setCategory] = useState("");
 
-  const handleSubmit = async (e: SubmitEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!category || !english || !french || !difficulty || !example) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
     try {
-      await addDoc(collection(db, "words"), {
+      const categoryRef = doc(db, "categories", category);
+      const wordsRef = collection(categoryRef, "words");
+
+      await addDoc(wordsRef, {
         french,
         english,
         example,
         difficulty,
-        category,
       });
+
+      alert(`Word added successfully to the "${category}" category!`);
 
       setFrench("");
       setEnglish("");
@@ -30,7 +37,8 @@ const WordAddingForm = (props: Props) => {
       setDifficulty("");
       setCategory("");
     } catch (error) {
-      console.log("An error was encountered while fetching word: ", error);
+      console.error("An error occurred while adding the word:", error);
+      alert("Failed to add the word. Please try again.");
     }
   };
 
@@ -40,43 +48,43 @@ const WordAddingForm = (props: Props) => {
         <TextField
           sx={{
             "& .MuiOutlinedInput-input": {
-              color: "rgb(255, 252, 252) !important", // Force the text color
+              color: "rgb(255, 252, 252) !important",
             },
           }}
-          label="Word in french"
+          label="Word in French"
           type="text"
           value={french}
           onChange={(e) => setFrench(e.target.value)}
           required
-        ></TextField>
+        />
         <TextField
           sx={{
             "& .MuiOutlinedInput-input": {
-              color: "rgb(255, 252, 252) !important", // Force the text color
+              color: "rgb(255, 252, 252) !important",
             },
           }}
-          label="Word in english"
+          label="Word in English"
           type="text"
           value={english}
           onChange={(e) => setEnglish(e.target.value)}
           required
-        ></TextField>
+        />
         <TextField
           sx={{
             "& .MuiOutlinedInput-input": {
-              color: "rgb(255, 252, 252) !important", // Force the text color
+              color: "rgb(255, 252, 252) !important",
             },
           }}
-          label="Example"
+          label="Example Sentence"
           type="text"
           value={example}
           onChange={(e) => setExample(e.target.value)}
           required
-        ></TextField>
+        />
         <TextField
           sx={{
             "& .MuiOutlinedInput-input": {
-              color: "rgb(255, 252, 252) !important", // Force the text color
+              color: "rgb(255, 252, 252) !important",
             },
           }}
           label="Category"
@@ -84,7 +92,7 @@ const WordAddingForm = (props: Props) => {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           required
-        ></TextField>
+        />
       </Stack>
       <Select
         value={difficulty}
@@ -92,15 +100,22 @@ const WordAddingForm = (props: Props) => {
         label="Difficulty"
         sx={{
           "& .MuiOutlinedInput-input": {
-            color: "rgb(255, 252, 252) !important", // Force the text color
+            color: "rgb(255, 252, 252) !important",
           },
         }}
+        required
       >
         <MenuItem value="easy">Easy</MenuItem>
         <MenuItem value="medium">Medium</MenuItem>
         <MenuItem value="hard">Hard</MenuItem>
       </Select>
-      <Button type="submit">SUBMIT</Button>
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{ marginTop: 2, backgroundColor: "blue", color: "white" }}
+      >
+        Add Word
+      </Button>
     </Box>
   );
 };
